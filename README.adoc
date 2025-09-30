@@ -1,0 +1,46 @@
+= {CPP} Contracts Examples
+
+This is a collection of simple examples on how to use {CPP} Contracts feature
+as describe in P2900.
+
+This uses https://www.bfgroup.xyz/b2/[B2] build system for the implementation
+of the building with clang (or gcc).
+
+== Requirements
+
+You will need to install both B2 and the special Clang/LLVM that supports
+contracts (GCC should also work, but is not tested).
+
+== Clang
+
+Follow the instructions here https://contracts.efcs.ca/ that uses the Compiler
+Explorer pre-built image. You can control where the compiler is installed to
+avoid needing root privileges. For example:
+
+```
+./bin/ce_install --prefix=${HOME}/.local/opt --enable nightly install 'compilers/c++/nightly/clang ericwf-contracts-trunk'
+```
+
+=== B2
+
+Assuming the above Clang install with `--prefix=${HOME}/.local/opt` on an
+`x86_64-unknown-linux-gnu` machine:
+
+* Get B2 source from https://github.com/bfgroup/b2/archive/refs/heads/main.zip
+(or clone the main branch).
+* Run `./bootstrap.sh`
+* Run `./b2 install --prefix=${HOME}/.local`
+* Add `${HOME}/.local/bin` to your `PATH` if needed.
+* Create a `${HOME}/user-config.jam`.
+* Add `using clang : 22.0~contracts : /home/grafik/.local/opt/clang-ericwf-contracts-trunk/bin/clang++ ;`
+to the `${HOME}/user-config.jam`.
+
+== Examples
+
+To run the examples, assuming the above installations, do:
+
+* Go to the root of this repo.
+* Run `LD_LIBRARY_PATH=${HOME}/.local/opt/clang-ericwf-contracts-trunk/lib/x86_64-unknown-linux-gnu b2 toolset=clang-22.0~contracts`
+
+The `LD_LIBRARY_PATH=` is needed to find the stdlib as it's not in a system
+findable location. And B2 doesn't hard code the location for it.

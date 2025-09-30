@@ -1,0 +1,50 @@
+#|
+Copyright René Ferdinand Rivera Morell 2025
+|#
+
+#|
+Run with:
+
+LD_LIBRARY_PATH=${HOME}/.local/opt/clang-ericwf-contracts-trunk/lib/x86_64-unknown-linux-gnu b2 toolset=clang-22.0~contracts
+|#
+
+require-b2 5.4 ;
+
+import testing ;
+
+project /cpp_contracts_example
+	: requirements
+		<contracts>on
+		<toolset>clang:<stdlib>libc++
+		<cxxstd>23
+	: build-dir .build
+	;
+
+lib fun_a_enforce
+	:	fun_a.cpp
+	:	<contracts-semantic>enforce
+	;
+
+lib fun_a_ignore
+	:	fun_a.cpp
+	:	<contracts-semantic>ignore
+	;
+
+for local semantic_main in enforce ignore
+{
+	for local semantic_lib in enforce ignore
+	{
+		local test = run ;
+		if $(semantic_lib) in enforce
+		{
+			test = run-fail ;
+		}
+		for local link_lib in static #shared
+		{
+			$(test) main_a.cpp : :
+				:	<library>fun_a_$(semantic_lib)/<link>$(link_lib)
+					<contracts-semantic>$(semantic_main)
+				:	main_a_$(link_lib)_$(semantic_main)_$(semantic_lib) ;
+		}
+	}
+}
