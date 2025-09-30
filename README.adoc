@@ -32,7 +32,7 @@ Assuming the above Clang install with `--prefix=${HOME}/.local/opt` on an
 * Run `./b2 install --prefix=${HOME}/.local`
 * Add `${HOME}/.local/bin` to your `PATH` if needed.
 * Create a `${HOME}/user-config.jam`.
-* Add `using clang : 22.0~contracts : /home/grafik/.local/opt/clang-ericwf-contracts-trunk/bin/clang++ ;`
+* Add `using clang : 22.0~contracts : ${HOME}/.local/opt/clang-ericwf-contracts-trunk/bin/clang++ ;`
 to the `${HOME}/user-config.jam`.
 
 == Examples
