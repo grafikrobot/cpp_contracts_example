@@ -11,7 +11,9 @@ of the building with clang (or gcc).
 You will need to install both B2 and the special Clang/LLVM that supports
 contracts (GCC should also work, but is not tested).
 
-== Clang
+NOTE: Below you can adjust paths to your liking.
+
+=== Clang
 
 Follow the instructions here https://contracts.efcs.ca/ that uses the Compiler
 Explorer pre-built image. You can control where the compiler is installed to
@@ -32,8 +34,9 @@ Assuming the above Clang install with `--prefix=${HOME}/.local/opt` on an
 * Run `./b2 install --prefix=${HOME}/.local`
 * Add `${HOME}/.local/bin` to your `PATH` if needed.
 * Create a `${HOME}/user-config.jam`.
-* Add `using clang : 22.0~contracts : ${HOME}/.local/opt/clang-ericwf-contracts-trunk/bin/clang++ ;`
-to the `${HOME}/user-config.jam`.
+* Add `using clang : 22.0~contracts : _HOME_/.local/opt/clang-ericwf-contracts-trunk/bin/clang++ ;`
+to the `${HOME}/user-config.jam`. Replace `_HOME_` with the appropriate path
+to your home directory.
 
 == Examples
 
